@@ -467,7 +467,7 @@
     <div class="greeting-tag">Happy Doctor's Day</div>
     <div class="greeting-name" id="greetingName">Dear Doctor</div>
     <div class="greeting-message" id="greetingMessage"></div>
-    <div class="greeting-sender">Ind-Swift Laboratories</div>
+    <div class="greeting-sender">Ind-Swift Laboratories Limited</div>
     <div class="greeting-sender-sub">With gratitude · 1st July 2025</div>
     <button class="close-btn" onclick="closeGreeting()">Close</button>
   </div>
@@ -475,7 +475,7 @@
 
 <!-- ══ FOOTER ══ -->
 <footer>
-  <strong>Ind-Swift Laboratories</strong> &nbsp;·&nbsp; Wishing every doctor a day as meaningful as the lives they heal.
+  <strong>Ind-Swift Laboratories Limited</strong> &nbsp;·&nbsp; Wishing every doctor a day as meaningful as the lives they heal.
 </footer>
 
 <script>
@@ -496,13 +496,16 @@
     return messages[idx];
   }
 
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxaMlmABxIjV2gzliFfBnN9ERxLdamNDsvNPfopiXpbByoYVBCn1jt5AJ4K8ZRELNT/exec';
+
   document.getElementById('doctorForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    const name     = document.getElementById('name').value.trim();
-    const phone    = document.getElementById('phone').value.trim();
-    const city     = document.getElementById('city').value.trim();
-    const clinic   = document.getElementById('clinic').value.trim();
+    const name        = document.getElementById('name').value.trim();
+    const phone       = document.getElementById('phone').value.trim();
+    const city        = document.getElementById('city').value.trim();
+    const clinic      = document.getElementById('clinic').value.trim();
+    const suggestions = document.getElementById('suggestions').value.trim();
 
     if (!name || !phone || !city || !clinic) {
       const firstEmpty = [...this.querySelectorAll('input[required]')].find(i => !i.value.trim());
@@ -510,12 +513,28 @@
       return;
     }
 
-    // Show greeting
-    const displayName = name.startsWith('Dr') ? name : 'Dr. ' + name;
-    document.getElementById('greetingName').textContent = 'Dear ' + displayName;
-    document.getElementById('greetingMessage').textContent = getRandomMessage();
-    document.getElementById('overlay').classList.add('active');
-    document.body.style.overflow = 'hidden';
+    // Disable button & show sending state
+    const btn = this.querySelector('.submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    // Send data to Google Apps Script
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, phone, city, clinic, suggestions })
+    })
+    .finally(function() {
+      // Show greeting regardless (no-cors means we can't read the response)
+      btn.disabled = false;
+      btn.textContent = 'Receive Your Greeting →';
+      const displayName = name.startsWith('Dr') ? name : 'Dr. ' + name;
+      document.getElementById('greetingName').textContent = 'Dear ' + displayName;
+      document.getElementById('greetingMessage').textContent = getRandomMessage();
+      document.getElementById('overlay').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
   });
 
   function closeGreeting() {
