@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Happy Doctor's Day — Ind-Swift Laboratories</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy:    #0A2342;
+    --blue:    #1B5FA8;
+    --skyblue: #3A8FD6;
+    --ice:     #E8F4FD;
+    --white:   #FFFFFF;
+    --gold:    #C9A84C;
+    --text:    #1A1A2E;
+    --muted:   #5A6A82;
+    --border:  #C8DDEF;
+    --radius:  14px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--ice);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(145deg, var(--navy) 0%, #0E3A6B 55%, var(--blue) 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px 56px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  /* floating circles background */
+  .hero::before, .hero::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.06;
+    background: var(--white);
+    pointer-events: none;
+  }
+  .hero::before { width: 520px; height: 520px; top: -140px; left: -140px; }
+  .hero::after  { width: 380px; height: 380px; bottom: -80px; right: -80px; }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.10);
+    border: 1px solid rgba(255,255,255,0.22);
+    color: #A8D4F5;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 6px 20px;
+    border-radius: 40px;
+    margin-bottom: 28px;
+    backdrop-filter: blur(6px);
+  }
+
+  .hero-date {
+    color: var(--gold);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(42px, 8vw, 80px);
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.08;
+    margin-bottom: 10px;
+  }
+
+  .hero h1 span {
+    color: var(--gold);
+    display: block;
+  }
+
+  .hero-sub {
+    color: #A8C8E8;
+    font-size: clamp(15px, 2.5vw, 18px);
+    font-weight: 300;
+    max-width: 520px;
+    line-height: 1.65;
+    margin: 18px auto 0;
+  }
+
+  /* stethoscope divider */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 32px auto 0;
+    max-width: 300px;
+  }
+  .divider-line { flex: 1; height: 1px; background: rgba(255,255,255,0.18); }
+  .divider-icon { color: var(--gold); font-size: 22px; }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255,255,255,0.4);
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  .scroll-hint svg { width: 20px; height: 20px; }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%       { transform: translateX(-50%) translateY(6px); }
+  }
+
+  /* ── FORM SECTION ── */
+  .section {
+    padding: 72px 24px;
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--skyblue);
+    margin-bottom: 10px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 600;
+    color: var(--navy);
+    line-height: 1.2;
+    margin-bottom: 10px;
+  }
+
+  .section-desc {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.7;
+    max-width: 500px;
+    margin-bottom: 40px;
+  }
+
+  /* form card */
+  .form-card {
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 40px 36px;
+    box-shadow: 0 4px 32px rgba(10,35,66,0.07);
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  .field {
+    margin-bottom: 20px;
+  }
+
+  .field.full { grid-column: 1 / -1; }
+
+  .field label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+    text-transform: uppercase;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .field input,
+  .field textarea {
+    width: 100%;
+    padding: 13px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    background: #FAFCFF;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    -webkit-appearance: none;
+  }
+
+  .field input::placeholder,
+  .field textarea::placeholder { color: #A0B0C4; }
+
+  .field input:focus,
+  .field textarea:focus {
+    border-color: var(--skyblue);
+    box-shadow: 0 0 0 3px rgba(58,143,214,0.15);
+    background: var(--white);
+  }
+
+  .field textarea { resize: vertical; min-height: 90px; }
+
+  .submit-btn {
+    width: 100%;
+    padding: 16px 24px;
+    background: linear-gradient(135deg, var(--blue) 0%, var(--skyblue) 100%);
+    color: var(--white);
+    font-size: 15px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    letter-spacing: 0.5px;
+    transition: opacity 0.2s, transform 0.15s;
+    margin-top: 8px;
+  }
+
+  .submit-btn:hover  { opacity: 0.92; transform: translateY(-1px); }
+  .submit-btn:active { transform: translateY(0); }
+
+  /* ── GREETING OVERLAY ── */
+  .overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(10,35,66,0.75);
+    backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .overlay.active { display: flex; }
+
+  .greeting-card {
+    background: var(--white);
+    border-radius: 24px;
+    max-width: 520px;
+    width: 100%;
+    padding: 48px 40px 40px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 24px 80px rgba(10,35,66,0.3);
+    animation: slideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(40px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .greeting-emblem {
+    width: 72px;
+    height: 72px;
+    background: linear-gradient(135deg, var(--blue), var(--skyblue));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    font-size: 32px;
+  }
+
+  .greeting-tag {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--skyblue);
+    margin-bottom: 12px;
+  }
+
+  .greeting-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 20px;
+  }
+
+  .greeting-message {
+    font-size: 16px;
+    line-height: 1.75;
+    color: var(--muted);
+    font-style: italic;
+    border-left: 3px solid var(--gold);
+    text-align: left;
+    padding: 16px 20px;
+    background: #F7FBFF;
+    border-radius: 0 10px 10px 0;
+    margin-bottom: 28px;
+  }
+
+  .greeting-sender {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+  }
+
+  .greeting-sender-sub {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 28px;
+  }
+
+  .close-btn {
+    background: var(--ice);
+    border: 1.5px solid var(--border);
+    color: var(--navy);
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+    padding: 12px 32px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  .close-btn:hover { background: var(--border); }
+
+  /* confetti dots */
+  .confetti-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+  }
+  .dot:nth-child(1) { background: var(--gold); }
+  .dot:nth-child(2) { background: var(--skyblue); }
+  .dot:nth-child(3) { background: var(--navy); }
+  .dot:nth-child(4) { background: var(--gold); }
+  .dot:nth-child(5) { background: var(--skyblue); }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 32px 24px 48px;
+    color: var(--muted);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+  }
+
+  footer strong { color: var(--navy); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 560px) {
+    .form-card   { padding: 28px 20px; }
+    .form-row    { grid-template-columns: 1fr; }
+    .greeting-card { padding: 36px 24px 32px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-hint { animation: none; }
+    .greeting-card { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="hero-badge">Ind-Swift Laboratories Limited</div>
+  <div class="hero-date">1st July · National Doctor's Day</div>
+  <h1>
+    Happy<br/>
+    <span>Doctor's Day</span>
+  </h1>
+  <p class="hero-sub">
+    To the healers who turn knowledge into hope — your dedication shapes countless lives every day. We are honoured to stand beside you.
+  </p>
+  <div class="divider">
+    <div class="divider-line"></div>
+    <div class="divider-icon">⚕</div>
+    <div class="divider-line"></div>
+  </div>
+
+  <div class="scroll-hint">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+    share your thoughts
+  </div>
+</section>
+
+<!-- ══ FORM ══ -->
+<div class="section">
+  <div class="section-label">A moment for you</div>
+  <h2 class="section-title">We'd love to hear from you, Doctor</h2>
+  <p class="section-desc">Your insights help us serve you better. Please take a moment to share your details and any thoughts you have for us.</p>
+
+  <div class="form-card">
+    <form id="doctorForm" novalidate>
+      <div class="form-row">
+        <div class="field">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" placeholder="Dr. Firstname Lastname" required/>
+        </div>
+        <div class="field">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" placeholder="+91 XXXXX XXXXX" required/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="city">City</label>
+          <input type="text" id="city" placeholder="Your city" required/>
+        </div>
+        <div class="field">
+          <label for="clinic">Clinic / Hospital Name</label>
+          <input type="text" id="clinic" placeholder="Your practice name" required/>
+        </div>
+      </div>
+      <div class="field full">
+        <label for="suggestions">Suggestions for Ind-Swift</label>
+        <textarea id="suggestions" placeholder="Your feedback, ideas, or suggestions are most welcome…"></textarea>
+      </div>
+      <button type="submit" class="submit-btn">Receive Your Greeting →</button>
+    </form>
+  </div>
+</div>
+
+<!-- ══ GREETING OVERLAY ══ -->
+<div class="overlay" id="overlay">
+  <div class="greeting-card">
+    <div class="confetti-row">
+      <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      <div class="dot"></div><div class="dot"></div>
+    </div>
+    <div class="greeting-emblem">⚕</div>
+    <div class="greeting-tag">Happy Doctor's Day</div>
+    <div class="greeting-name" id="greetingName">Dear Doctor</div>
+    <div class="greeting-message" id="greetingMessage"></div>
+    <div class="greeting-sender">Ind-Swift Laboratories</div>
+    <div class="greeting-sender-sub">With gratitude · 1st July 2025</div>
+    <button class="close-btn" onclick="closeGreeting()">Close</button>
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <strong>Ind-Swift Laboratories</strong> &nbsp;·&nbsp; Wishing every doctor a day as meaningful as the lives they heal.
+</footer>
+
+<script>
+  const messages = [
+    "Your stethoscope listens where words cannot reach. On this Doctor's Day, we celebrate not just your medical expertise, but the extraordinary human warmth you bring into every consultation. Ind-Swift Laboratories is proud to support the work you do — one prescription, one patient, one life at a time.",
+
+    "Medicine is both a science and an art — and you have mastered both. The trust a patient places in you is among the most profound gifts one person can give another. Today, on Doctor's Day, Ind-Swift Laboratories salutes your unwavering commitment to healing and your tireless pursuit of better health for all.",
+
+    "Behind every recovered patient is a doctor who chose not to give up. Your calm in difficult moments, your precision under pressure, and your compassion in uncertain times make you truly extraordinary. On this special day, Ind-Swift Laboratories thanks you for being the pillar that communities lean on.",
+
+    "You chose a profession that asks everything of you — and you give it willingly, every single day. On National Doctor's Day, Ind-Swift Laboratories honours the years of study, the sleepless nights, and the quiet courage that define a healer. May today remind you of the immense difference you make.",
+
+    "Long after the appointment ends, your words of reassurance stay with your patients. That is the true power of a great doctor — presence that heals beyond medicine. Ind-Swift Laboratories is grateful to stand by your side, committed to bringing you quality that matches your dedication."
+  ];
+
+  function getRandomMessage() {
+    const idx = Math.floor(Math.random() * messages.length);
+    return messages[idx];
+  }
+
+  document.getElementById('doctorForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const name     = document.getElementById('name').value.trim();
+    const phone    = document.getElementById('phone').value.trim();
+    const city     = document.getElementById('city').value.trim();
+    const clinic   = document.getElementById('clinic').value.trim();
+
+    if (!name || !phone || !city || !clinic) {
+      const firstEmpty = [...this.querySelectorAll('input[required]')].find(i => !i.value.trim());
+      if (firstEmpty) firstEmpty.focus();
+      return;
+    }
+
+    // Show greeting
+    const displayName = name.startsWith('Dr') ? name : 'Dr. ' + name;
+    document.getElementById('greetingName').textContent = 'Dear ' + displayName;
+    document.getElementById('greetingMessage').textContent = getRandomMessage();
+    document.getElementById('overlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  });
+
+  function closeGreeting() {
+    document.getElementById('overlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  // Close on backdrop click
+  document.getElementById('overlay').addEventListener('click', function(e) {
+    if (e.target === this) closeGreeting();
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeGreeting();
+  });
+</script>
+</body>
+</html>
