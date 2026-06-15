@@ -18,7 +18,6 @@
     --text:    #1A1A2E;
     --muted:   #5A6A82;
     --border:  #C8DDEF;
-    --radius:  14px;
   }
 
   html { scroll-behavior: smooth; }
@@ -31,6 +30,7 @@
     overflow-x: hidden;
   }
 
+  /* ══ HERO — greeting shown immediately ══ */
   .hero {
     background: linear-gradient(145deg, var(--navy) 0%, #0E3A6B 55%, var(--blue) 100%);
     min-height: 100vh;
@@ -66,13 +66,12 @@
     text-transform: uppercase;
     padding: 6px 20px;
     border-radius: 40px;
-    margin-bottom: 28px;
+    margin-bottom: 24px;
     backdrop-filter: blur(6px);
   }
 
   .hero-date {
     color: var(--gold);
-    font-family: 'Inter', sans-serif;
     font-size: 13px;
     font-weight: 500;
     letter-spacing: 3px;
@@ -89,31 +88,46 @@
     margin-bottom: 10px;
   }
 
-  .hero h1 span {
-    color: var(--gold);
-    display: block;
+  .hero h1 span { color: var(--gold); display: block; }
+
+  /* Random greeting message shown in hero */
+  .hero-greeting {
+    margin: 28px auto 0;
+    max-width: 580px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.18);
+    border-left: 4px solid var(--gold);
+    border-radius: 0 14px 14px 0;
+    padding: 22px 28px;
+    text-align: left;
+    backdrop-filter: blur(4px);
+    animation: fadeInUp 0.8s ease both;
+    animation-delay: 0.3s;
   }
 
-  .hero-sub {
-    color: #A8C8E8;
-    font-size: clamp(15px, 2.5vw, 18px);
-    font-weight: 300;
-    max-width: 520px;
-    line-height: 1.65;
-    margin: 18px auto 0;
+  .hero-greeting p {
+    color: #D6E8F8;
+    font-size: clamp(14px, 2.2vw, 16px);
+    font-style: italic;
+    line-height: 1.8;
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
   .divider {
     display: flex;
     align-items: center;
     gap: 16px;
-    margin: 32px auto 0;
+    margin: 28px auto 0;
     max-width: 300px;
   }
   .divider-line { flex: 1; height: 1px; background: rgba(255,255,255,0.18); }
   .divider-icon { color: var(--gold); font-size: 22px; }
 
-  /* ── BIG SCROLL INDICATOR ── */
+  /* ══ SCROLL INDICATOR ══ */
   .scroll-hint {
     position: absolute;
     bottom: 32px;
@@ -190,10 +204,10 @@
     50%       { transform: translateY(4px);  opacity: 1; }
   }
 
-  /* ── FORM SECTION ── */
+  /* ══ WHATSAPP FORM SECTION ══ */
   .section {
-    padding: 72px 24px;
-    max-width: 700px;
+    padding: 64px 24px 80px;
+    max-width: 600px;
     margin: 0 auto;
   }
 
@@ -208,10 +222,10 @@
 
   .section-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(28px, 5vw, 42px);
+    font-size: clamp(26px, 5vw, 38px);
     font-weight: 600;
     color: var(--navy);
-    line-height: 1.2;
+    line-height: 1.25;
     margin-bottom: 10px;
   }
 
@@ -219,26 +233,59 @@
     color: var(--muted);
     font-size: 15px;
     line-height: 1.7;
-    max-width: 500px;
-    margin-bottom: 40px;
+    margin-bottom: 32px;
+  }
+
+  .section-desc strong {
+    color: var(--navy);
+    font-weight: 600;
+  }
+
+  /* whatsapp highlight box */
+  .wa-highlight {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: #f0fff4;
+    border: 1.5px solid #b7eac9;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 32px;
+  }
+
+  .wa-icon {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+    background: #25D366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+  }
+
+  .wa-highlight-text {
+    font-size: 14px;
+    color: #1a4731;
+    line-height: 1.6;
+  }
+
+  .wa-highlight-text strong {
+    display: block;
+    font-size: 15px;
+    margin-bottom: 2px;
   }
 
   .form-card {
     background: var(--white);
     border: 1px solid var(--border);
     border-radius: 20px;
-    padding: 40px 36px;
+    padding: 36px 32px;
     box-shadow: 0 4px 32px rgba(10,35,66,0.07);
   }
 
-  .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-  }
-
-  .field { margin-bottom: 20px; }
-  .field.full { grid-column: 1 / -1; }
+  .field { margin-bottom: 22px; }
 
   .field label {
     display: block;
@@ -250,10 +297,9 @@
     margin-bottom: 8px;
   }
 
-  .field input,
-  .field textarea {
+  .field input {
     width: 100%;
-    padding: 13px 16px;
+    padding: 14px 16px;
     border: 1.5px solid var(--border);
     border-radius: 10px;
     font-size: 15px;
@@ -265,22 +311,18 @@
     -webkit-appearance: none;
   }
 
-  .field input::placeholder,
-  .field textarea::placeholder { color: #A0B0C4; }
+  .field input::placeholder { color: #A0B0C4; }
 
-  .field input:focus,
-  .field textarea:focus {
-    border-color: var(--skyblue);
-    box-shadow: 0 0 0 3px rgba(58,143,214,0.15);
+  .field input:focus {
+    border-color: #25D366;
+    box-shadow: 0 0 0 3px rgba(37,211,102,0.15);
     background: var(--white);
   }
-
-  .field textarea { resize: vertical; min-height: 90px; }
 
   .submit-btn {
     width: 100%;
     padding: 16px 24px;
-    background: linear-gradient(135deg, var(--blue) 0%, var(--skyblue) 100%);
+    background: linear-gradient(135deg, #1DA851 0%, #25D366 100%);
     color: var(--white);
     font-size: 15px;
     font-weight: 600;
@@ -290,19 +332,31 @@
     cursor: pointer;
     letter-spacing: 0.5px;
     transition: opacity 0.2s, transform 0.15s;
-    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 4px;
   }
 
   .submit-btn:hover  { opacity: 0.92; transform: translateY(-1px); }
   .submit-btn:active { transform: translateY(0); }
+  .submit-btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
 
-  /* ── GREETING OVERLAY ── */
+  .privacy-note {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 14px;
+  }
+
+  /* ══ SUCCESS OVERLAY ══ */
   .overlay {
     display: none;
     position: fixed;
     inset: 0;
     z-index: 100;
-    background: rgba(10,35,66,0.75);
+    background: rgba(10,35,66,0.78);
     backdrop-filter: blur(6px);
     align-items: center;
     justify-content: center;
@@ -311,14 +365,13 @@
 
   .overlay.active { display: flex; }
 
-  .greeting-card {
+  .success-card {
     background: var(--white);
     border-radius: 24px;
-    max-width: 520px;
+    max-width: 480px;
     width: 100%;
-    padding: 48px 40px 40px;
+    padding: 44px 36px 36px;
     text-align: center;
-    position: relative;
     box-shadow: 0 24px 80px rgba(10,35,66,0.3);
     animation: slideUp 0.45s cubic-bezier(0.16, 1, 0.3, 1);
     max-height: 90vh;
@@ -330,60 +383,57 @@
     to   { opacity: 1; transform: translateY(0) scale(1); }
   }
 
-  .greeting-emblem {
+  .success-emblem {
     width: 72px;
     height: 72px;
-    background: linear-gradient(135deg, var(--blue), var(--skyblue));
+    background: linear-gradient(135deg, #1DA851, #25D366);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto 24px;
+    margin: 0 auto 20px;
     font-size: 32px;
   }
 
-  .greeting-tag {
+  .success-tag {
     font-size: 11px;
     font-weight: 600;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: var(--skyblue);
-    margin-bottom: 12px;
+    color: #1DA851;
+    margin-bottom: 10px;
   }
 
-  .greeting-name {
+  .success-name {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 28px;
+    font-size: 26px;
     font-weight: 700;
     color: var(--navy);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
   }
 
-  .greeting-message {
-    font-size: 16px;
+  .success-msg {
+    font-size: 14px;
     line-height: 1.75;
     color: var(--muted);
-    font-style: italic;
-    border-left: 3px solid var(--gold);
-    text-align: left;
-    padding: 16px 20px;
-    background: #F7FBFF;
-    border-radius: 0 10px 10px 0;
-    margin-bottom: 28px;
+    background: #f0fff4;
+    border: 1px solid #b7eac9;
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin-bottom: 24px;
   }
 
-  .greeting-sender {
+  .success-sender {
     font-size: 13px;
     font-weight: 600;
     color: var(--navy);
-    letter-spacing: 0.5px;
     margin-bottom: 4px;
   }
 
-  .greeting-sender-sub {
+  .success-sender-sub {
     font-size: 12px;
     color: var(--muted);
-    margin-bottom: 28px;
+    margin-bottom: 24px;
   }
 
   .close-btn {
@@ -405,18 +455,18 @@
     display: flex;
     justify-content: center;
     gap: 6px;
-    margin-bottom: 20px;
+    margin-bottom: 18px;
   }
   .dot { width: 8px; height: 8px; border-radius: 50%; }
   .dot:nth-child(1) { background: var(--gold); }
-  .dot:nth-child(2) { background: var(--skyblue); }
+  .dot:nth-child(2) { background: #25D366; }
   .dot:nth-child(3) { background: var(--navy); }
   .dot:nth-child(4) { background: var(--gold); }
-  .dot:nth-child(5) { background: var(--skyblue); }
+  .dot:nth-child(5) { background: #25D366; }
 
   footer {
     text-align: center;
-    padding: 32px 24px 48px;
+    padding: 28px 24px 44px;
     color: var(--muted);
     font-size: 13px;
     border-top: 1px solid var(--border);
@@ -424,21 +474,23 @@
   footer strong { color: var(--navy); }
 
   @media (max-width: 560px) {
-    .form-card     { padding: 28px 20px; }
-    .form-row      { grid-template-columns: 1fr; }
-    .greeting-card { padding: 32px 20px 28px; }
+    .hero-greeting { padding: 18px 20px; }
+    .form-card { padding: 28px 20px; }
+    .success-card { padding: 32px 20px 28px; }
     .scroll-circle { width: 62px; height: 62px; }
-    .scroll-circle svg { width: 26px; height: 26px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .scroll-circle, .scroll-circle::before, .scroll-circle::after, .scroll-circle svg { animation: none; }
-    .greeting-card { animation: none; }
+    .scroll-circle, .scroll-circle::before,
+    .scroll-circle::after, .scroll-circle svg,
+    .hero-greeting { animation: none; }
+    .success-card { animation: none; }
   }
 </style>
 </head>
 <body>
 
+<!-- ══ HERO — Greeting shown immediately on scan ══ -->
 <section class="hero">
   <div class="hero-badge">Ind-Swift Laboratories Limited</div>
   <div class="hero-date">1st July · National Doctor's Day</div>
@@ -446,17 +498,20 @@
     Happy<br/>
     <span>Doctor's Day</span>
   </h1>
-  <p class="hero-sub">
-    To the healers who turn knowledge into hope — your dedication shapes countless lives every day. We are honoured to stand beside you.
-  </p>
+
+  <!-- Random greeting shown instantly — no form needed -->
+  <div class="hero-greeting">
+    <p id="heroMessage"></p>
+  </div>
+
   <div class="divider">
     <div class="divider-line"></div>
     <div class="divider-icon">⚕</div>
     <div class="divider-line"></div>
   </div>
 
-  <a class="scroll-hint" href="#form-section" aria-label="Scroll down to fill the form">
-    <span class="scroll-hint-label">Share your thoughts</span>
+  <a class="scroll-hint" href="#form-section" aria-label="Scroll down">
+    <span class="scroll-hint-label">Receive our exclusive video</span>
     <div class="scroll-circle">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <polyline points="6 9 12 15 18 9"/>
@@ -465,55 +520,56 @@
   </a>
 </section>
 
+<!-- ══ WHATSAPP FORM — Step 2 ══ -->
 <div class="section" id="form-section">
-  <div class="section-label">A moment for you</div>
-  <h2 class="section-title">We'd love to hear from you, Doctor</h2>
-  <p class="section-desc">Your insights help us serve you better. Please take a moment to share your details and any thoughts you have for us.</p>
+  <div class="section-label">Exclusive for you</div>
+  <h2 class="section-title">Receive our Doctor's Day video on WhatsApp</h2>
+  <p class="section-desc">We have created a <strong>special Doctor's Day reel</strong> as a token of appreciation. Share your WhatsApp number below and we will send it to you personally.</p>
+
+  <div class="wa-highlight">
+    <div class="wa-icon">📲</div>
+    <div class="wa-highlight-text">
+      <strong>Get our exclusive Doctor's Day video</strong>
+      Just your name and WhatsApp number — delivered to you today
+    </div>
+  </div>
 
   <div class="form-card">
     <form id="doctorForm" novalidate>
-      <div class="form-row">
-        <div class="field">
-          <label for="name">Full Name</label>
-          <input type="text" id="name" placeholder="Dr. Firstname Lastname" required/>
-        </div>
-        <div class="field">
-          <label for="phone">Phone Number</label>
-          <input type="tel" id="phone" placeholder="+91 XXXXX XXXXX" required/>
-        </div>
+      <div class="field">
+        <label for="name">Your Name</label>
+        <input type="text" id="name" placeholder="Dr. Firstname Lastname" required/>
       </div>
-      <div class="form-row">
-        <div class="field">
-          <label for="city">City</label>
-          <input type="text" id="city" placeholder="Your city" required/>
-        </div>
-        <div class="field">
-          <label for="clinic">Clinic / Hospital Name</label>
-          <input type="text" id="clinic" placeholder="Your practice name" required/>
-        </div>
+      <div class="field">
+        <label for="phone">WhatsApp Number</label>
+        <input type="tel" id="phone" placeholder="+91 XXXXX XXXXX" required/>
       </div>
-      <div class="field full">
-        <label for="suggestions">Suggestions for Ind-Swift</label>
-        <textarea id="suggestions" placeholder="Your feedback, ideas, or suggestions are most welcome…"></textarea>
-      </div>
-      <button type="submit" class="submit-btn">Receive Your Greeting →</button>
+      <button type="submit" class="submit-btn">
+        <span>📲</span>
+        <span>Send me the Video on WhatsApp</span>
+      </button>
     </form>
+    <p class="privacy-note">🔒 Your number will only be used to send the Doctor's Day video. We respect your privacy.</p>
   </div>
 </div>
 
+<!-- ══ SUCCESS OVERLAY ══ -->
 <div class="overlay" id="overlay">
-  <div class="greeting-card">
+  <div class="success-card">
     <div class="confetti-row">
       <div class="dot"></div><div class="dot"></div><div class="dot"></div>
       <div class="dot"></div><div class="dot"></div>
     </div>
-    <div class="greeting-emblem">⚕</div>
-    <div class="greeting-tag">Happy Doctor's Day</div>
-    <div class="greeting-name" id="greetingName">Dear Doctor</div>
-    <div class="greeting-message" id="greetingMessage"></div>
-    <div class="greeting-sender">Ind-Swift Laboratories Limited</div>
-    <div class="greeting-sender-sub">With gratitude · 1st July 2026</div>
-    <button class="close-btn" onclick="closeGreeting()">Close</button>
+    <div class="success-emblem">✓</div>
+    <div class="success-tag">Thank You, Doctor</div>
+    <div class="success-name" id="successName">Dear Doctor</div>
+    <div class="success-msg">
+      You will receive our exclusive Doctor's Day video on your WhatsApp shortly.<br/><br/>
+      Thank you for taking a moment to connect with us. Your dedication to healing inspires everything we do at Ind-Swift Laboratories.
+    </div>
+    <div class="success-sender">Ind-Swift Laboratories Limited</div>
+    <div class="success-sender-sub">With gratitude · 1st July 2026</div>
+    <button class="close-btn" onclick="closeOverlay()">Close</button>
   </div>
 </div>
 
@@ -522,6 +578,7 @@
 </footer>
 
 <script>
+  // ── 5 greeting messages — shown randomly on page load (no form needed)
   const messages = [
     "Your stethoscope listens where words cannot reach. On this Doctor's Day, we celebrate not just your medical expertise, but the extraordinary human warmth you bring into every consultation. Ind-Swift Laboratories is proud to support the work you do — one prescription, one patient, one life at a time.",
     "Medicine is both a science and an art — and you have mastered both. The trust a patient places in you is among the most profound gifts one person can give another. Today, on Doctor's Day, Ind-Swift Laboratories salutes your unwavering commitment to healing and your tireless pursuit of better health for all.",
@@ -530,22 +587,21 @@
     "Long after the appointment ends, your words of reassurance stay with your patients. That is the true power of a great doctor — presence that heals beyond medicine. Ind-Swift Laboratories is grateful to stand by your side, committed to bringing you quality that matches your dedication."
   ];
 
-  function getRandomMessage() {
-    return messages[Math.floor(Math.random() * messages.length)];
-  }
+  // Show random message immediately on page load
+  document.getElementById('heroMessage').textContent =
+    messages[Math.floor(Math.random() * messages.length)];
 
+  // ── Apps Script URL
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyEIU4lnZP8yZEUb4PisHHa5zB0ub-kCXGOmlKd9nWoqhxLi1cIe0E513h6PMJFiprj/exec';
 
+  // ── Form submit
   document.getElementById('doctorForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    const name        = document.getElementById('name').value.trim();
-    const phone       = document.getElementById('phone').value.trim();
-    const city        = document.getElementById('city').value.trim();
-    const clinic      = document.getElementById('clinic').value.trim();
-    const suggestions = document.getElementById('suggestions').value.trim();
+    const name  = document.getElementById('name').value.trim();
+    const phone = document.getElementById('phone').value.trim();
 
-    if (!name || !phone || !city || !clinic) {
+    if (!name || !phone) {
       const firstEmpty = [...this.querySelectorAll('input[required]')].find(i => !i.value.trim());
       if (firstEmpty) firstEmpty.focus();
       return;
@@ -553,36 +609,35 @@
 
     const btn = this.querySelector('.submit-btn');
     btn.disabled = true;
-    btn.textContent = 'Sending…';
+    btn.innerHTML = '<span>⏳</span><span>Sending…</span>';
 
     fetch(SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, phone, city, clinic, suggestions })
+      body: JSON.stringify({ name, phone, city: '', clinic: '', suggestions: '' })
     })
     .finally(function() {
       btn.disabled = false;
-      btn.textContent = 'Receive Your Greeting →';
+      btn.innerHTML = '<span>📲</span><span>Send me the Video on WhatsApp</span>';
       const displayName = name.startsWith('Dr') ? name : 'Dr. ' + name;
-      document.getElementById('greetingName').textContent = 'Dear ' + displayName;
-      document.getElementById('greetingMessage').textContent = getRandomMessage();
+      document.getElementById('successName').textContent = 'Thank you, ' + displayName;
       document.getElementById('overlay').classList.add('active');
       document.body.style.overflow = 'hidden';
     });
   });
 
-  function closeGreeting() {
+  function closeOverlay() {
     document.getElementById('overlay').classList.remove('active');
     document.body.style.overflow = '';
   }
 
   document.getElementById('overlay').addEventListener('click', function(e) {
-    if (e.target === this) closeGreeting();
+    if (e.target === this) closeOverlay();
   });
 
   document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape') closeGreeting();
+    if (e.key === 'Escape') closeOverlay();
   });
 </script>
 </body>
